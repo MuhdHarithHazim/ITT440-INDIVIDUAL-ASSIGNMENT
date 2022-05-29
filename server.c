@@ -29,3 +29,32 @@ int main (int argc, char const *argv[])
 		address.sin_port = htons(PORT);
 
 		memset(address.sin_zero, '\0', sizeof address.sin_zero);
+	
+	 if (bind(server_fd, (struct sockaddr *)&address, sizeof(address))<0)
+   		 {
+      		  perror("In bind");
+      		  exit(EXIT_FAILURE);
+   		 }
+   		 if (listen(server_fd, 10) < 0)
+  		  {
+     		   perror("In listen");
+     		   exit(EXIT_FAILURE);
+   		 }
+   		 while(1)
+   		 {
+      		  printf("\n************* Waiting new connection ***********\n\n");
+       		 if ((new_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen))<0)
+        	{
+         	   perror("In accept");
+         	   exit(EXIT_FAILURE);
+       		 }
+        
+       		 char buffer[50000] = {0};
+      		  valread = read( new_socket , buffer, 50000);
+                  printf("%s\n",buffer );
+       		  write(new_socket , hello , strlen(hello));
+     		   printf("*************Hello message sent***************");
+     		   close(new_socket);
+  		  }
+  		  return 0;
+		}
