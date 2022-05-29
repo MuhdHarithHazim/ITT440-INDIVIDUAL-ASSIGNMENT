@@ -1,7 +1,9 @@
 #include <stdio.h>   //to printf()
 #include <sys/socket.h> //to declare internet protocol family
 #include <string.h> //header
-#include <arpa/inet.h> //to declare inet address
+#include<arpa/inet.h> //to declare inet address
+
+#define PORT 8080
 
 	int main(int argc, char *argv[])
 	{
@@ -16,9 +18,9 @@
 		{
 			printf("Fail to create a socket");
 		}
-		server.sin_addr.s_addr inet_addr("192.168.56.103");
+		server.sin_addr.s_addr = inet_addr("192.168.56.103");
 			server.sin_family = AF_INET;
-			server.sin_port = htons(22);
+			server.sin_port = htons(PORT);
 			
 	//Connecting to remote server
 		if (connect(socket_desc, (struct sockaddr*)&server, sizeof(server)) < 0)
@@ -42,7 +44,7 @@
 		{
 			puts("Message received failed");
 		}
-		puts("Reply Receive Successfully");
+		puts("Receive Successfully");
 		puts(server_reply);
 		return 0;
 	}
